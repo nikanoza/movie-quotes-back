@@ -3,4 +3,5 @@ export interface RegisterSchema {
   password: string;
   confirmPassword: string;
   email: string;
+  backlink: string;
 }

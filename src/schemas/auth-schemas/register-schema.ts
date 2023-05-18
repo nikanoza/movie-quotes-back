@@ -34,6 +34,7 @@ const createUserSchema = async (_: RegisterSchema) => {
           }
         }
       }),
+    backlink: Joi.string().uri().required(),
   });
 };
 

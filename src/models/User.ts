@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { Email, Movie, Name, User } from "../types/models";
+import { Email, Movie, Name, UserT } from "../types/models";
 
 const { String, Boolean, Number } = Schema.Types;
 
@@ -24,7 +24,7 @@ const movieSchema = new Schema<Movie>({
   id: { type: Number, required: true },
 });
 
-const userSchema = new Schema<User>({
+const userSchema = new Schema<UserT>({
   name: { type: String, required: true },
   emails: [emailSchema],
   password: { type: String, required: true },
@@ -32,6 +32,6 @@ const userSchema = new Schema<User>({
   id: { type: String, required: true },
 });
 
-const User = model("Users", userSchema);
+const User = model("User", userSchema);
 
 export default User;

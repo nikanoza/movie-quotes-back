@@ -36,6 +36,8 @@ paths:
                   type: string
                 email:
                   type: string
+                backlink:
+                  type: string
       responses:
         "201":
           description: user register successfully

@@ -1,9 +1,11 @@
 import { Request, Response } from "express";
 import { v4 as uuid } from "uuid";
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 
 import { createUserSchema } from "../schemas";
-import { User } from "../models";
+import { EmailValidation, User } from "../models";
+import { sendEmailConfirmation } from "../mail";
 
 export const register = async (req: Request, res: Response) => {
   const { body } = req;
@@ -11,7 +13,9 @@ export const register = async (req: Request, res: Response) => {
   const validator = await createUserSchema(body);
 
   try {
-    const { name, password, email } = await validator.validateAsync(body);
+    const { name, password, email, backlink } = await validator.validateAsync(
+      body
+    );
 
     const id = uuid();
 
@@ -24,9 +28,17 @@ export const register = async (req: Request, res: Response) => {
       movies: [],
       id,
     });
+
+    const verificationHash = crypto.randomBytes(48).toString("hex");
+
+    await EmailValidation.create({
+      email,
+      hash: verificationHash,
+    });
+
+    await sendEmailConfirmation(email, verificationHash, name, backlink);
+    return res.status(201).json({ message: "user created" });
   } catch (error) {
     return res.status(401).json(error);
   }
-
-  return res.status(201).json({ message: "user created" });
 };

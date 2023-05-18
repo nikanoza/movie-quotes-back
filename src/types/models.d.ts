@@ -19,10 +19,15 @@ export interface Movie {
   id: number;
 }
 
-export interface User {
+export interface UserT {
   name: string;
   emails: Email[];
   password: string;
   movies: Movie[];
   id: string;
+}
+
+export interface EmailValidationType {
+  email: string;
+  hash: string;
 }
