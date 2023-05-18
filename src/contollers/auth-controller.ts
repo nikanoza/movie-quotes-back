@@ -58,9 +58,10 @@ export const emailValidation = async (req: Request, res: Response) => {
     const emailIndex = user.emails.findIndex(
       (elem) => elem.email === verifyDocument?.email
     );
-
     user.emails[emailIndex || 0].verify = true;
-    await user.updateOne();
+    await user.save();
+
+    return res.status(200).json({ message: "email verified" });
   } catch (error) {
     return res.status(402).json({ message: "email did not find" });
   }
