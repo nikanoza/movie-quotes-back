@@ -73,8 +73,17 @@ export const login = async (req: Request, res: Response) => {
   const validator = await loginSchema(body);
   try {
     const { email, password } = await validator.validateAsync(body);
-
-    const user = await User.findOne({ "emails.email": email });
+    const user = await User.findOne(
+      { "emails.email": email },
+      {
+        _id: 0,
+        __v: 0,
+        "emails._id": 0,
+        "emails.__v": 0,
+        "movies._id": 0,
+        "movies.__v": 0,
+      }
+    ).select("+password");
     if (!user) {
       throw new Error("Invalid email or password");
     }
@@ -83,7 +92,16 @@ export const login = async (req: Request, res: Response) => {
     if (!match) {
       throw new Error("Invalid email or password");
     }
+    const signData = {
+      name: user.name,
+      emails: user.emails,
+      movies: user.movies,
+      id: user.id,
+    };
+
+    const token = jwt.sign(signData, process.env.JWT_SECRET!);
+    return res.status(200).json({ ...signData, token });
   } catch (error) {
-    res.status(400).json(error);
+    return res.status(400).json(error);
   }
 };

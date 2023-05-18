@@ -57,4 +57,23 @@ paths:
                   type: string
       responses:
         "200":
-          description: user register successfully
+          description: user verify successfully
+  /login:
+    post:
+      tags:
+        - Auth
+      requestBody:
+        description: user login
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: user login successfully

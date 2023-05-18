@@ -1,13 +1,13 @@
 import Joi from "joi";
 import { User } from "../../models";
-import { loginSchema } from "types";
+import { LoginSchema } from "types";
 
-const loginSchema = async (_: loginSchema) => {
-  return Joi.object<loginSchema>({
+const loginSchema = async (_: LoginSchema) => {
+  return Joi.object<LoginSchema>({
     email: Joi.string()
       .email()
       .required()
-      .custom(async (value, _) => {
+      .external(async (value) => {
         try {
           const user = await User.findOne({ "emails.email": value });
           if (!user) {
