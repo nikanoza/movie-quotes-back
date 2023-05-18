@@ -1,0 +1,41 @@
+openapi: 3.0.0
+info:
+  title: Movie-Quotes
+  description: API
+  version: 0.1.9
+
+servers:
+  - url: https://folksoul-api-nikanoza-production.up.railway.app/api
+    description: production server
+  - url: http://localhost:3000/api
+    description: local server
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+paths:
+  /register:
+    post:
+      tags:
+        - Auth
+      requestBody:
+        description: JWT bearer authorization
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                name:
+                  type: string
+                password:
+                  type: string
+                confirmPassword:
+                  type: string
+                email:
+                  type: string
+      responses:
+        "201":
+          description: user register successfully

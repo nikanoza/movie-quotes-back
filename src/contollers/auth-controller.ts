@@ -10,24 +10,23 @@ export const register = async (req: Request, res: Response) => {
 
   const validator = await createUserSchema(body);
 
-  const { value, error } = validator.validate(body);
+  try {
+    const { name, password, email } = await validator.validateAsync(body);
 
-  if (error) {
-    return res.status(422).json(error.details);
+    const id = uuid();
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    await User.create({
+      name,
+      password: hashedPassword,
+      emails: [{ email, verify: false, primary: true }],
+      movies: [],
+      id,
+    });
+  } catch (error) {
+    return res.status(401).json(error);
   }
 
-  const { name, password, email } = value;
-
-  const id = uuid();
-
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
-
-  await User.create({
-    name,
-    password: hashedPassword,
-    emails: [{ email, verify: false, primary: true }],
-    movies: [],
-    id,
-  });
+  return res.status(201).json({ message: "user created" });
 };

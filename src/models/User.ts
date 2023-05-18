@@ -32,6 +32,6 @@ const userSchema = new Schema<User>({
   id: { type: String, required: true },
 });
 
-const User = model("User", userSchema);
+const User = model("Users", userSchema);
 
 export default User;
