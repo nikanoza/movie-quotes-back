@@ -21,7 +21,7 @@ paths:
       tags:
         - Auth
       requestBody:
-        description: JWT bearer authorization
+        description: user registration request
         required: true
         content:
           application/json:
@@ -40,4 +40,21 @@ paths:
                   type: string
       responses:
         "201":
+          description: user register successfully
+  /verify:
+    post:
+      tags:
+        - Auth
+      requestBody:
+        description: verify email
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                hash:
+                  type: string
+      responses:
+        "200":
           description: user register successfully

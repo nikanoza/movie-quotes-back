@@ -42,3 +42,26 @@ export const register = async (req: Request, res: Response) => {
     return res.status(401).json(error);
   }
 };
+
+export const emailValidation = async (req: Request, res: Response) => {
+  const { hash } = req.body;
+
+  try {
+    const verifyDocument = await EmailValidation.findOne({ hash });
+
+    const user = await User.findOne({ "emails.email": verifyDocument?.email });
+    if (!user) {
+      return res
+        .status(401)
+        .json({ message: "email you try to verify did not exist" });
+    }
+    const emailIndex = user.emails.findIndex(
+      (elem) => elem.email === verifyDocument?.email
+    );
+
+    user.emails[emailIndex || 0].verify = true;
+    await user.updateOne();
+  } catch (error) {
+    return res.status(402).json({ message: "email did not find" });
+  }
+};
