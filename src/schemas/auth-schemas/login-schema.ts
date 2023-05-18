@@ -1,8 +1,9 @@
 import Joi from "joi";
 import { User } from "../../models";
+import { loginSchema } from "types";
 
-const loginSchema = async () => {
-  return Joi.object({
+const loginSchema = async (_: loginSchema) => {
+  return Joi.object<loginSchema>({
     email: Joi.string()
       .email()
       .required()

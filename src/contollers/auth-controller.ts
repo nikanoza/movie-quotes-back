@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
 
-import { createUserSchema } from "../schemas";
+import { createUserSchema, loginSchema } from "../schemas";
 import { EmailValidation, User } from "../models";
 import { sendEmailConfirmation } from "../mail";
 
@@ -51,7 +51,7 @@ export const emailValidation = async (req: Request, res: Response) => {
     const verifyDocument = await EmailValidation.findOne({ hash });
 
     const user = await User.findOne({ "emails.email": verifyDocument?.email });
-    if (!user) {
+    if (!user || !verifyDocument) {
       return res
         .status(401)
         .json({ message: "email you try to verify did not exist" });
@@ -61,11 +61,29 @@ export const emailValidation = async (req: Request, res: Response) => {
     );
     user.emails[emailIndex || 0].verify = true;
     await user.save();
-
+    await verifyDocument.deleteOne();
     return res.status(200).json({ message: "email verified" });
   } catch (error) {
     return res.status(402).json({ message: "email did not find" });
   }
 };
 
-export const login = async (req: Request, res: Response) => {};
+export const login = async (req: Request, res: Response) => {
+  const { body } = req;
+  const validator = await loginSchema(body);
+  try {
+    const { email, password } = await validator.validateAsync(body);
+
+    const user = await User.findOne({ "emails.email": email });
+    if (!user) {
+      throw new Error("Invalid email or password");
+    }
+
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
+      throw new Error("Invalid email or password");
+    }
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};

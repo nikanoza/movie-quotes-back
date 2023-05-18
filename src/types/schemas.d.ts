@@ -5,3 +5,8 @@ export interface RegisterSchema {
   email: string;
   backlink: string;
 }
+
+export interface LoginSchema {
+  email: string;
+  password: string;
+}
