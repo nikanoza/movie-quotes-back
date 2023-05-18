@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { v4 as uuid } from "uuid";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
+import jwt from "jsonwebtoken";
 
 import { createUserSchema } from "../schemas";
 import { EmailValidation, User } from "../models";
@@ -66,3 +67,5 @@ export const emailValidation = async (req: Request, res: Response) => {
     return res.status(402).json({ message: "email did not find" });
   }
 };
+
+export const login = async (req: Request, res: Response) => {};
