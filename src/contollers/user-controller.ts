@@ -1,9 +1,11 @@
 import { Request, Response } from "express";
 import { PasswordRecovery, User } from "models";
 import crypto from "crypto"
+import { generateExpireDate } from "helpers";
+import { sendPasswordRecovery } from "mail";
 
 export const passwordRecovery = async (req:Request, res: Response) => {
-    const { email } = req.body;
+    const { email, backLink } = req.body;
 
     const user = await User.findOne({ "emails.email": email });
 
@@ -18,9 +20,10 @@ export const passwordRecovery = async (req:Request, res: Response) => {
     }
 
     const hash = crypto.randomBytes(48).toString("hex");
-    const date = new Date();
-    const hours = date.getHours();
-    date.setHours(hours + 1);
-    await PasswordRecovery.create({ email, hash, expireIn: date})
+    const date = generateExpireDate();
 
+    await PasswordRecovery.create({ email, hash, expireIn: date});
+    await sendPasswordRecovery(email, hash, user.name, backLink);
+
+    return res.status(200).json({message: "Check your email for instractions!"})
 }
