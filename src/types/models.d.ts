@@ -31,3 +31,7 @@ export interface EmailValidationType {
   email: string;
   hash: string;
 }
+
+export interface PasswordResetType extends EmailValidationType {
+  expireIn: Date;
+}
