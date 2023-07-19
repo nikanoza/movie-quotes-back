@@ -10,3 +10,9 @@ export interface LoginSchema {
   email: string;
   password: string;
 }
+
+
+export interface PasswordRecoverySchema {
+  email: string;
+  backLink: string;
+}
