@@ -72,3 +72,28 @@ export const passwordReset = async (req:Request, res: Response) => {
         return res.status(401).json(error);
     }
 }
+
+export const updateAvatar = async (req:Request, res: Response) => {
+    try {
+        const { file } = req;
+        const id = req.params.userId;
+
+        const user = await User.findOne({ id });
+
+        if(!user){
+            return res.status(400).json({message: "user with this id did'not find"});
+        }
+
+        if(!file){
+            return res.status(400).json({message: "image did not upload"});
+        }
+
+        const image = '/storage/' + file.filename;
+
+        user.avatar = image;
+        await user.save();
+        return res.status(201).json({message: "user avatar updated!"})
+    } catch (error) {
+        return res.status(401).json(error);
+    }
+}
