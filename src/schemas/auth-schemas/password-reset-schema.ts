@@ -1,8 +1,8 @@
 import Joi from "joi";
-import { passwordResetSchema } from "types";
+import { PasswordResetSchema } from "types";
 
-const passwordResetSchema = async (_: passwordResetSchema) => {
-  return Joi.object<passwordResetSchema>({
+const passwordResetSchema = async (_: PasswordResetSchema) => {
+  return Joi.object<PasswordResetSchema>({
     hash: Joi.string()
       .required(),
     password: Joi.string().min(8).max(20).required(),

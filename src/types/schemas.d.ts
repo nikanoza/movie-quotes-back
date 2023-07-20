@@ -17,7 +17,7 @@ export interface PasswordRecoverySchema {
   backLink: string;
 }
 
-export interface passwordResetSchema {
+export interface PasswordResetSchema {
   password: string;
   confirmPassword: string;
   hash: string;
