@@ -4,7 +4,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 
 import connectToMongo from "./config/mongo.js";
-import { authRouter } from "./routes";
+import { authRouter, userRouter } from "./routes";
 import swaggerMiddleware from "./middlewares/swagger-middleware.js";
 
 dotenv.config();
@@ -14,6 +14,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 app.use("/api", authRouter);
+app.use("/api", userRouter);
 
 app.use("/", ...swaggerMiddleware);
 
