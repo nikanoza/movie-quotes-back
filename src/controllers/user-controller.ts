@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import { PasswordRecovery, User } from "../models";
 import crypto from "crypto"
+import bcrypt from "bcrypt"
 import { generateExpireDate } from "../helpers";
 import { sendPasswordRecovery } from "../mail";
-import { passwordRecoverySchema } from "../schemas";
+import { passwordRecoverySchema, passwordResetSchema } from "../schemas";
 
 export const passwordRecovery = async (req:Request, res: Response) => {
     const { body } = req;
@@ -30,4 +31,44 @@ export const passwordRecovery = async (req:Request, res: Response) => {
     await sendPasswordRecovery(email, hash, user.name, backLink);
 
     return res.status(200).json({message: "Check your email for instractions!"})
+}
+
+export const passwordReset = async (req:Request, res: Response) => {
+    try {
+        const { body } = req;
+        const validator = await passwordResetSchema(body);
+        const { password, hash } = await validator.validateAsync(body);
+
+        const resetDocument = await PasswordRecovery.findOne({ hash });
+
+        if(!resetDocument){
+            return res.status(400).json({message: "There is no any request for this account to update password"});
+        }
+
+        const date = new Date();
+        const isExpired = resetDocument.expireIn > date;
+
+        if(!isExpired){
+            await resetDocument.deleteOne();
+            return res.status(400).json({message: "Link has expired!"});
+        }
+
+        const user = await User.findOne({ "emails.email": resetDocument.email });
+
+        if(!user){
+            return res.status(400).json({message: "user with this email did'not find"});
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        user.password = hashedPassword;
+        await user.save();
+        await resetDocument.deleteOne();
+
+        return res.status(200).json({message: "Password updated successfully"});
+
+    } catch (error) {
+        return res.status(401).json(error);
+    }
 }
