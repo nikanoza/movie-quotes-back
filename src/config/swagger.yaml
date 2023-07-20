@@ -117,3 +117,29 @@ paths:
       responses:
         "200":
           description: user password update successfully    
+  /user/avatar/{userId}:
+    put:
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: add avatar
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                avatar:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: avatar uploaded
