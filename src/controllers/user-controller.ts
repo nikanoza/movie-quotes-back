@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { PasswordRecovery, User } from "models";
+import { PasswordRecovery, User } from "../models";
 import crypto from "crypto"
-import { generateExpireDate } from "helpers";
-import { sendPasswordRecovery } from "mail";
-import { passwordRecoverySchema } from "schemas";
+import { generateExpireDate } from "../helpers";
+import { sendPasswordRecovery } from "../mail";
+import { passwordRecoverySchema } from "../schemas";
 
 export const passwordRecovery = async (req:Request, res: Response) => {
     const { body } = req;

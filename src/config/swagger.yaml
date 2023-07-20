@@ -77,3 +77,22 @@ paths:
       responses:
         "200":
           description: user login successfully
+  /recovery:
+    post:
+      tags:
+        - Auth
+      requestBody:
+        description: password recovery
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                email:
+                  type: string
+                backLink:
+                  type: string
+      responses:
+        "200":
+          description: check your email

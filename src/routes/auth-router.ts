@@ -1,4 +1,4 @@
-import { emailValidation, login, register } from "../contollers";
+import { emailValidation, login, passwordRecovery, register } from "../contollers";
 import express from "express";
 
 const authRouter = express();
@@ -6,5 +6,6 @@ const authRouter = express();
 authRouter.post("/register", register);
 authRouter.post("/verify", emailValidation);
 authRouter.post("/login", login);
+authRouter.post("/recovery", passwordRecovery)
 
 export default authRouter;
