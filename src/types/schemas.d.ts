@@ -16,3 +16,9 @@ export interface PasswordRecoverySchema {
   email: string;
   backLink: string;
 }
+
+export interface passwordResetSchema {
+  password: string;
+  confirmPassword: string;
+  hash: string;
+}

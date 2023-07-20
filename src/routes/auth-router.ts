@@ -1,4 +1,4 @@
-import { emailValidation, login, passwordRecovery, register } from "../contollers";
+import { emailValidation, login, passwordRecovery, register } from "../controllers";
 import express from "express";
 
 const authRouter = express();
