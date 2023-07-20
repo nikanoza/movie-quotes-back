@@ -1,5 +1,6 @@
+import { updateAvatar } from "../controllers";
 import express, { Request } from "express";
-import { authMiddleware } from "middlewares";
+import { authMiddleware } from "../middlewares";
 import multer, { FileFilterCallback } from 'multer';
 import { DestinationCallback, FileNameCallback } from "types";
 
@@ -38,6 +39,6 @@ const fileStorage = multer.diskStorage({
 
 const userRouter = express.Router();
 
-userRouter.put("/user/avatar/:userId", authMiddleware, multer({ storage: fileStorage, fileFilter }).single('avatar'),)
+userRouter.put("/user/avatar/:userId", authMiddleware, multer({ storage: fileStorage, fileFilter }).single('avatar'), updateAvatar)
 
 export default userRouter;
