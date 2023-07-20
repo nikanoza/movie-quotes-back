@@ -25,6 +25,7 @@ const movieSchema = new Schema<Movie>({
 });
 
 const userSchema = new Schema<UserT>({
+  avatar: { type: String, required: false },
   name: { type: String, required: true },
   emails: [emailSchema],
   password: { type: String, required: true },

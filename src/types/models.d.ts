@@ -25,6 +25,7 @@ export interface UserT {
   password: string;
   movies: Movie[];
   id: string;
+  avatar?: string;
 }
 
 export interface EmailValidationType {
