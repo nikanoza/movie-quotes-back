@@ -96,3 +96,24 @@ paths:
       responses:
         "200":
           description: check your email
+  /reset:
+    post:
+      tags:
+        - Auth
+      requestBody:
+        description: password reset
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                password:
+                  type: string
+                confirmPassword:
+                  type: string
+                hash:
+                  type: string
+      responses:
+        "200":
+          description: user password update successfully    
