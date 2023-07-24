@@ -2,7 +2,7 @@ import { addEmail, updateAvatar, updateUser } from "../controllers";
 import express from "express";
 import { authMiddleware } from "../middlewares";
 import multer from "multer";
-import { fileStorage, fileFilter } from "types";
+import { fileStorage, fileFilter } from "../types/multer.js";
 
 const userRouter = express.Router();
 

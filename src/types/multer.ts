@@ -13,7 +13,7 @@ export const fileStorage = multer.diskStorage({
     callback(null, "public/storage");
   },
   filename: (
-    _: express.Request,
+    _: Request,
     file: Express.Multer.File,
     callback: FileNameCallback
   ): void => {
@@ -22,7 +22,7 @@ export const fileStorage = multer.diskStorage({
 });
 
 export const fileFilter = (
-  __: express.Request,
+  __: Request,
   file: Express.Multer.File,
   callback: FileFilterCallback
 ): void => {
