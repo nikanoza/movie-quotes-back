@@ -11,7 +11,6 @@ export interface LoginSchema {
   password: string;
 }
 
-
 export interface PasswordRecoverySchema {
   email: string;
   backLink: string;
@@ -21,4 +20,8 @@ export interface PasswordResetSchema {
   password: string;
   confirmPassword: string;
   hash: string;
+}
+
+export interface CreateMovie extends Omit<Movie, "id"> {
+  userId: string;
 }
