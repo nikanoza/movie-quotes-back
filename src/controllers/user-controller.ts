@@ -134,3 +134,28 @@ export const updateUser = async (req: Request, res: Response) => {
     return res.status(401).json(error);
   }
 };
+
+export const addEmail = async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+    const id = req.params.id;
+
+    const user = await User.findOne({ id });
+    if (!user) {
+      return res
+        .status(400)
+        .json({ message: "user with this email did'not find" });
+    }
+
+    user.emails.push({
+      email,
+      verify: false,
+      primary: false,
+    });
+
+    await user.save();
+    return res.status(201).json({ message: "new email added to account" });
+  } catch (error) {
+    return res.status(401).json(error);
+  }
+};
