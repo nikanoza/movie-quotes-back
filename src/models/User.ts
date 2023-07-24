@@ -21,7 +21,7 @@ const movieSchema = new Schema<Movie>({
   director: nameSchema,
   description: nameSchema,
   poster: { type: String, required: true },
-  id: { type: Number, required: true },
+  id: { type: String, required: true },
 });
 
 const userSchema = new Schema<UserT>({

@@ -16,7 +16,7 @@ export interface Movie {
   director: Name;
   description: Name;
   poster: string;
-  id: number;
+  id: string;
 }
 
 export interface UserT {
