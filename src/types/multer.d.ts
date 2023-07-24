@@ -1,11 +1,8 @@
 import { Request } from "express";
 import multer, { FileFilterCallback } from "multer";
 
-export type DestinationCallback = (
-  error: Error | null,
-  destination: string
-) => void;
-export type FileNameCallback = (error: Error | null, filename: string) => void;
+type DestinationCallback = (error: Error | null, destination: string) => void;
+type FileNameCallback = (error: Error | null, filename: string) => void;
 
 export const fileStorage = multer.diskStorage({
   destination: (
