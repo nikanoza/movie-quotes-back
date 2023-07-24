@@ -1,4 +1,4 @@
-import { updateAvatar, updateUser } from "../controllers";
+import { addEmail, updateAvatar, updateUser } from "../controllers";
 import express, { Request } from "express";
 import { authMiddleware } from "../middlewares";
 import multer, { FileFilterCallback } from "multer";
@@ -46,5 +46,6 @@ userRouter.put(
   updateAvatar
 );
 userRouter.put("/user/:id", authMiddleware, updateUser);
+userRouter.post("/user/emails/:id", authMiddleware, addEmail);
 
 export default userRouter;

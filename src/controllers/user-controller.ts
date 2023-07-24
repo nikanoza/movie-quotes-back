@@ -3,7 +3,7 @@ import { PasswordRecovery, User } from "../models";
 import crypto from "crypto";
 import bcrypt from "bcrypt";
 import { generateExpireDate } from "../helpers";
-import { sendEmailConfirmation, sendPasswordRecovery } from "../mail";
+import { sendPasswordRecovery } from "../mail";
 import { passwordRecoverySchema, passwordResetSchema } from "../schemas";
 
 export const passwordRecovery = async (req: Request, res: Response) => {

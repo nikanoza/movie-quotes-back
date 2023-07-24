@@ -143,6 +143,32 @@ paths:
       responses:
         "200":
           description: avatar uploaded
+  /user/emails/{id}:
+    post:
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: add email
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: avatar uploaded
   /user/{id}:
     put:
       parameters:
