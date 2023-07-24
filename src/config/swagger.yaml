@@ -116,7 +116,7 @@ paths:
                   type: string
       responses:
         "200":
-          description: user password update successfully    
+          description: user password update successfully
   /user/avatar/{userId}:
     put:
       parameters:
@@ -141,5 +141,32 @@ paths:
                   type: string
                   format: binary
       responses:
-        '200':
+        "200":
           description: avatar uploaded
+  /user/{id}:
+    put:
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: password reset
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                name:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: user password update successfully
