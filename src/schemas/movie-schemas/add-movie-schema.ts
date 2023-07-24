@@ -2,7 +2,7 @@ import Joi from "joi";
 import { User } from "../../models";
 import { CreateMovie, Name } from "types";
 
-const loginSchema = async (data: CreateMovie) => {
+const addMovieSchema = async (data: CreateMovie) => {
   const commonSchema = Joi.object<Name>({
     eng: Joi.string().required(),
     geo: Joi.string().required(),
@@ -57,8 +57,13 @@ const loginSchema = async (data: CreateMovie) => {
           throw new Error("Invalid credentials");
         }
       }),
-    name: nameSchema,
+    name: nameSchema.required(),
+    categories: Joi.array().items(Joi.string()).required(),
+    year: Joi.number().integer().required(),
+    poster: Joi.string().required(),
+    director: commonSchema.required(),
+    description: commonSchema.required(),
   });
 };
 
-export default loginSchema;
+export default addMovieSchema;
