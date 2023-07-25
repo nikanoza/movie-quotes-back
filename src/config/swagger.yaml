@@ -216,9 +216,6 @@ paths:
             schema:
               type: object
               properties:
-                userId:
-                  type: string
-                  description: ID of the user creating the movie
                 name:
                   type: object
                   properties:

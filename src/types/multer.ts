@@ -10,7 +10,7 @@ export const fileStorage = multer.diskStorage({
     __: Express.Multer.File,
     callback: DestinationCallback
   ): void => {
-    callback(null, "public/storage");
+    callback(null, "src/storage");
   },
   filename: (
     _: Request,

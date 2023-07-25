@@ -9,6 +9,7 @@ export const addMovie = async (req: Request, res: Response) => {
     const { body } = req;
     const paramsUserId = req.params.userId;
     const { file } = req;
+    console.log(file);
 
     if (!file) {
       return res.status(400).json({ message: "image did not upload" });

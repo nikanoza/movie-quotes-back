@@ -14,7 +14,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-app.use("/storage/", express.static("public/storage"));
+app.use("/storage/", express.static("src/storage"));
 
 app.use("/api", authRouter);
 app.use("/api", userRouter);
