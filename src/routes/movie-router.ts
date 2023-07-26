@@ -8,8 +8,7 @@ const movieRouter = express.Router();
 
 movieRouter.post(
   "/movies/:userId",
-  authMiddleware,
-  multer({ storage: fileStorage, fileFilter }).single("poster"),
+  multer({ storage: fileStorage, fileFilter }).single("image"),
   addMovie
 );
 

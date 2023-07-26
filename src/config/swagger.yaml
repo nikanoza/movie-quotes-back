@@ -206,8 +206,8 @@ paths:
           required: true
       tags:
         - Movies
-      security:
-        - bearerAuth: []
+      # security:
+      #   - bearerAuth: []
       requestBody:
         description: add movie
         required: true
@@ -216,18 +216,12 @@ paths:
             schema:
               type: object
               properties:
-                name:
-                  type: object
-                  properties:
-                    eng:
-                      type: string
-                      description: English name of the movie
-                    geo:
-                      type: string
-                      description: Georgian name of the movie
-                  required:
-                    - eng
-                    - geo
+                name_geo:
+                  type: string
+                  description: Georgian name of the movie
+                name_eng:
+                  type: string
+                  description: English name of the movie
                 categories:
                   type: array
                   items:
@@ -237,34 +231,18 @@ paths:
                   type: integer
                   format: int32
                   description: Release year of the movie
-                poster:
+                image:
                   type: string
                   format: binary
                   description: Movie poster file (Multer file upload)
-                director:
-                  type: object
-                  properties:
-                    eng:
-                      type: string
-                      description: English name
-                    geo:
-                      type: string
-                      description: Georgian name
-                  required:
-                    - eng
-                    - geo
-                description:
-                  type: object
-                  properties:
-                    eng:
-                      type: string
-                      description: English description
-                    geo:
-                      type: string
-                      description: Georgian description
-                  required:
-                    - eng
-                    - geo
+                director_geo:
+                  type: string
+                director_eng:
+                  type: string
+                description_geo:
+                  type: string
+                description_eng:
+                  type: string
       responses:
         "200":
           description: Movie created successfully
