@@ -25,3 +25,11 @@ export interface PasswordResetSchema {
 export interface CreateMovie extends Omit<Movie, "id"> {
   userId: string;
 }
+
+export interface CreateQuotes {
+  userId: string;
+  movieId: string;
+  eng: string;
+  geo: string;
+  poster: string;
+}

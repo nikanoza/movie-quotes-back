@@ -13,6 +13,7 @@ const quoteSchema = new Schema<QuoteType>({
   geo: { type: String, required: true },
   poster: { type: String, required: true },
   comments: [commentSchema],
+  id: { type: String, required: true },
 });
 
 const Quote = model("Quote", quoteSchema);
