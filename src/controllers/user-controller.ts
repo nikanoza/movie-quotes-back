@@ -86,7 +86,6 @@ export const updateAvatar = async (req: Request, res: Response) => {
   try {
     const { file } = req;
     const id = req.params.userId;
-
     const user = await User.findOne({ id });
 
     if (!user) {
@@ -100,7 +99,6 @@ export const updateAvatar = async (req: Request, res: Response) => {
     }
 
     const image = "/storage/" + file.filename;
-
     user.avatar = image;
     await user.save();
     return res.status(201).json({ message: "user avatar updated!" });
