@@ -18,7 +18,8 @@ export const fileStorage = multer.diskStorage({
     callback: FileNameCallback
   ): void => {
     const timestamp = new Date().toISOString().replace(/:/g, "-");
-    callback(null, timestamp + "-" + file.originalname);
+    const name = file.originalname.replace(/[^a-zA-Z0-9.]/g, "_");
+    callback(null, timestamp + name);
   },
 });
 

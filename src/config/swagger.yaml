@@ -206,8 +206,8 @@ paths:
           required: true
       tags:
         - Movies
-      # security:
-      #   - bearerAuth: []
+      security:
+        - bearerAuth: []
       requestBody:
         description: add movie
         required: true
@@ -246,6 +246,61 @@ paths:
       responses:
         "200":
           description: Movie created successfully
+        "400":
+          description: Invalid request payload
+        "401":
+          description: Invalid credentials or user not found
+        "500":
+          description: Internal server error
+    put:
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+      tags:
+        - Movies
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: add movie
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name_geo:
+                  type: string
+                  description: Georgian name of the movie
+                name_eng:
+                  type: string
+                  description: English name of the movie
+                categories:
+                  type: array
+                  items:
+                    type: string
+                  description: List of categories for the movie
+                year:
+                  type: integer
+                  format: int32
+                  description: Release year of the movie
+                image:
+                  type: string
+                  format: binary
+                  description: Movie poster file (Multer file upload)
+                director_geo:
+                  type: string
+                director_eng:
+                  type: string
+                description_geo:
+                  type: string
+                description_eng:
+                  type: string
+      responses:
+        "204":
+          description: Movie updated successfully
         "400":
           description: Invalid request payload
         "401":

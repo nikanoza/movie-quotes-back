@@ -20,7 +20,10 @@ export const addMovie = async (req: Request, res: Response) => {
       description: { eng: body.description_eng, geo: body.description_geo },
       userId: paramsUserId,
       poster: "/storage/" + file.filename,
-      categories: typeof body.categories === "string" ? body.categories.split(",") : body.categories
+      categories:
+        typeof body.categories === "string"
+          ? body.categories.split(",")
+          : body.categories,
     };
 
     const validator = await addMovieSchema(transform);
@@ -53,7 +56,7 @@ export const addMovie = async (req: Request, res: Response) => {
 export const updateMovie = async (req: Request, res: Response) => {
   try {
     const { body } = req;
-    const id = req.params.id;
+    const id = req.params.userId;
     const { file } = req;
 
     if (!file) {
@@ -61,11 +64,15 @@ export const updateMovie = async (req: Request, res: Response) => {
     }
     const transform = {
       year: body.year,
+      userId: id,
       name: { eng: body.name_eng, geo: body.name_geo },
       director: { eng: body.director_eng, geo: body.director_geo },
       description: { eng: body.description_eng, geo: body.description_geo },
       poster: "/storage/" + file.filename,
-      categories: typeof body.categories === "string" ? body.categories.split(",") : body.categories
+      categories:
+        typeof body.categories === "string"
+          ? body.categories.split(",")
+          : body.categories,
     };
 
     const validator = await addMovieSchema(transform);
@@ -73,16 +80,14 @@ export const updateMovie = async (req: Request, res: Response) => {
     const { name, categories, year, poster, director, description } =
       await validator.validateAsync(transform);
 
-    const user = await User.findOne({ "movies.id": id});
+    const user = await User.findOne({ "movies.id": id });
     if (!user) {
-      return res
-        .status(400)
-        .json({ message: "movie did'not find" });
+      return res.status(400).json({ message: "movie did'not find" });
     }
 
-    const movieIndex = user.movies.findIndex(movie => movie.id === id);
-  
-    if( movieIndex >= 0) {
+    const movieIndex = user.movies.findIndex((movie) => movie.id === id);
+
+    if (movieIndex >= 0) {
       user.movies[movieIndex].name = name;
       user.movies[movieIndex].categories = categories;
       user.movies[movieIndex].year = year;
@@ -90,9 +95,9 @@ export const updateMovie = async (req: Request, res: Response) => {
       user.movies[movieIndex].poster = poster;
       user.movies[movieIndex].description = description;
     }
-      await user.save();
-      return res.status(204).json({ message: "movie updated" });
-    } catch (error) {
+    await user.save();
+    return res.status(204).json({ message: "movie updated" });
+  } catch (error) {
     return res.status(401).json(error);
   }
 };
