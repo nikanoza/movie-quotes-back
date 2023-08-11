@@ -307,3 +307,32 @@ paths:
           description: Invalid credentials or user not found
         "500":
           description: Internal server error
+  /quotes:
+    post:
+      tags:
+        - Quotes
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: add quote
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                geo:
+                  type: string
+                eng:
+                  type: string
+                userId:
+                  type: string
+                movieId:
+                  type: string
+                poster:
+                  type: string
+                  format: binary
+                  description: Movie poster file (Multer file upload)
+      responses:
+        "200":
+          description: Quote created successfully
