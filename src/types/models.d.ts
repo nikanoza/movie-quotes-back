@@ -47,5 +47,7 @@ export interface QuoteType {
   geo: string;
   poster: string;
   comments: CommentType[];
+  movieId: string;
+  userId: string;
   id: string;
 }

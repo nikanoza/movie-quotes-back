@@ -13,6 +13,8 @@ const quoteSchema = new Schema<QuoteType>({
   geo: { type: String, required: true },
   poster: { type: String, required: true },
   comments: [commentSchema],
+  movieId: { type: String, required: true },
+  userId: { type: String, required: true },
   id: { type: String, required: true },
 });
 

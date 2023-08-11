@@ -36,6 +36,8 @@ export const addQuote = async (req: Request, res: Response) => {
       geo,
       poster,
       id,
+      movieId,
+      userId,
       comments: [],
     });
 
