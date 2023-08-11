@@ -36,3 +36,15 @@ export interface EmailValidationType {
 export interface PasswordResetType extends EmailValidationType {
   expireIn: Date;
 }
+
+export interface CommentType {
+  userId: string;
+  text: string;
+}
+
+export interface QuoteType {
+  eng: string;
+  geo: string;
+  poster: string;
+  comments: CommentType[];
+}
