@@ -1,5 +1,6 @@
 import { authMiddleware } from "../middlewares";
 import {
+  addComment,
   addDislike,
   addLike,
   addQuote,
@@ -28,6 +29,7 @@ quoteRouter.put(
 
 quoteRouter.put("/likes/plus/:userId/:quoteId", authMiddleware, addLike);
 quoteRouter.put("/likes/minus/:userId/:quoteId", authMiddleware, addDislike);
-quoteRouter.delete("/quotes/:id", deleteQuote);
+quoteRouter.delete("/quotes/:id", authMiddleware, deleteQuote);
+quoteRouter.post("/comments", authMiddleware, addComment);
 
 export default quoteRouter;

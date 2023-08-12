@@ -410,8 +410,31 @@ paths:
           required: true
       tags:
         - Quotes
-        security:
-          - bearerAuth: []
+      security:
+        - bearerAuth: []
       responses:
         "203":
-          description: quite removed
+          description: quote removed
+  /comments:
+    post:
+      tags:
+        - Quotes
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: add comment
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                quoteId:
+                  type: string
+                text:
+                  type: string
+      responses:
+        "201":
+          description: comment added
