@@ -78,3 +78,47 @@ export const editQuotes = async (req: Request, res: Response) => {
 
   return res.status(204).json({ message: "quote updated" });
 };
+
+export const addLike = async (req: Request, res: Response) => {
+  const { userId, quoteId } = req.params;
+
+  const user = await User.findOne({ id: userId });
+  if (!user) {
+    return res.status(400).json({ message: "user not found" });
+  }
+  const quote = await Quote.findOne({ id: quoteId });
+  if (!quote) {
+    return res.status(400).json({ message: "quote not found" });
+  }
+
+  quote.likes = quote.likes + 1;
+  user.likes.push(quote.id);
+
+  await quote.save();
+  await user.save();
+
+  return res.status(204);
+};
+
+export const addDislike = async (req: Request, res: Response) => {
+  const { userId, quoteId } = req.params;
+
+  const user = await User.findOne({ id: userId });
+  if (!user) {
+    return res.status(400).json({ message: "user not found" });
+  }
+  const quote = await Quote.findOne({ id: quoteId });
+  if (!quote) {
+    return res.status(400).json({ message: "quote not found" });
+  }
+
+  quote.likes = quote.likes - 1;
+  const index = user.likes.findIndex(quote.id);
+
+  user.likes.splice(1, index);
+
+  await quote.save();
+  await user.save();
+
+  return res.status(204);
+};
