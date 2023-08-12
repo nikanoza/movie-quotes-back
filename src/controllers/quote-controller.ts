@@ -115,12 +115,24 @@ export const addDislike = async (req: Request, res: Response) => {
 
   const index = user.likes.findIndex((id) => id === quote.id);
 
-  const newLikes = user.likes.splice(index, 1);
-
-  console.log(newLikes);
+  user.likes.splice(index, 1);
 
   await quote.save();
   await user.save();
 
   return res.status(204).json("like removed");
+};
+
+export const deleteQuote = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const quote = await Quote.findOne({ id: id });
+
+  if (!quote) {
+    return res.status(400).json({ message: "quote not found" });
+  }
+
+  await quote.deleteOne();
+
+  return res.status(203).json("quote removed!");
 };
