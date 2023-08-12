@@ -6,9 +6,8 @@ import { v4 as uuid } from "uuid";
 
 export const addMovie = async (req: Request, res: Response) => {
   try {
-    const { body } = req;
+    const { body, file } = req;
     const paramsUserId = req.params.userId;
-    const { file } = req;
 
     if (!file) {
       return res.status(400).json({ message: "image did not upload" });
@@ -55,9 +54,8 @@ export const addMovie = async (req: Request, res: Response) => {
 
 export const updateMovie = async (req: Request, res: Response) => {
   try {
-    const { body } = req;
+    const { body, file } = req;
     const id = req.params.userId;
-    const { file } = req;
 
     if (!file) {
       return res.status(400).json({ message: "image did not upload" });

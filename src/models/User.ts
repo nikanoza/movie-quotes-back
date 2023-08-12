@@ -30,6 +30,7 @@ const userSchema = new Schema<UserT>({
   emails: [emailSchema],
   password: { type: String, required: true },
   movies: [movieSchema],
+  likes: [{ type: String, required: true }],
   id: { type: String, required: true },
 });
 
