@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { User } from "models";
 import { v4 as uuid } from "uuid";
 import Quote from "../models/Quote";
-import { addQuoteSchema, editQuoteSchema } from "../schemas";
+import { addCommentSchema, addQuoteSchema, editQuoteSchema } from "../schemas";
 
 export const addQuote = async (req: Request, res: Response) => {
   const { body, file } = req;
@@ -77,4 +77,91 @@ export const editQuotes = async (req: Request, res: Response) => {
   await quote.save();
 
   return res.status(204).json({ message: "quote updated" });
+};
+
+export const addLike = async (req: Request, res: Response) => {
+  const { userId, quoteId } = req.params;
+
+  const user = await User.findOne({ id: userId });
+  if (!user) {
+    return res.status(400).json({ message: "user not found" });
+  }
+  const quote = await Quote.findOne({ id: quoteId });
+  if (!quote) {
+    return res.status(400).json({ message: "quote not found" });
+  }
+
+  quote.likes = quote.likes + 1;
+  user.likes.push(quote.id);
+  await quote.save();
+  await user.save();
+
+  return res.status(204).json("like added");
+};
+
+export const addDislike = async (req: Request, res: Response) => {
+  const { userId, quoteId } = req.params;
+
+  const user = await User.findOne({ id: userId });
+  if (!user) {
+    return res.status(400).json({ message: "user not found" });
+  }
+  const quote = await Quote.findOne({ id: quoteId });
+  if (!quote) {
+    return res.status(400).json({ message: "quote not found" });
+  }
+
+  quote.likes = quote.likes - 1;
+
+  const index = user.likes.findIndex((id) => id === quote.id);
+
+  user.likes.splice(index, 1);
+
+  await quote.save();
+  await user.save();
+
+  return res.status(204).json("like removed");
+};
+
+export const deleteQuote = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const quote = await Quote.findOne({ id });
+
+  if (!quote) {
+    return res.status(400).json({ message: "quote not found" });
+  }
+
+  await quote.deleteOne();
+
+  return res.status(203).json("quote removed!");
+};
+
+export const addComment = async (req: Request, res: Response) => {
+  try {
+    const { body } = req;
+
+    const validator = await addCommentSchema(body);
+
+    const { value, error } = validator.validate(body);
+
+    if (error) {
+      return res.status(401).json(error.details);
+    }
+
+    const { userId, quoteId, text } = value;
+
+    const quote = await Quote.findOne({ id: quoteId });
+
+    quote?.comments.push({
+      userId,
+      text,
+    });
+
+    await quote?.save();
+
+    return res.status(201).json("new comment added");
+  } catch (error) {
+    return res.status(401).json(error);
+  }
 };

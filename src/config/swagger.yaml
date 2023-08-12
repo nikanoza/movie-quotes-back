@@ -360,3 +360,81 @@ paths:
       responses:
         "204":
           description: Edit Quote successfully
+  /likes/plus/{userId}/{quoteId}:
+    put:
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: quoteId
+          schema:
+            type: string
+          required: true
+      tags:
+        - Quotes
+      security:
+        - bearerAuth: []
+      responses:
+        "204":
+          description: like added
+  /likes/minus/{userId}/{quoteId}:
+    put:
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: quoteId
+          schema:
+            type: string
+          required: true
+      tags:
+        - Quotes
+      security:
+        - bearerAuth: []
+      responses:
+        "204":
+          description: like removed
+  /quotes/{id}:
+    delete:
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      tags:
+        - Quotes
+      security:
+        - bearerAuth: []
+      responses:
+        "203":
+          description: quote removed
+  /comments:
+    post:
+      tags:
+        - Quotes
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: add comment
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                quoteId:
+                  type: string
+                text:
+                  type: string
+      responses:
+        "201":
+          description: comment added
