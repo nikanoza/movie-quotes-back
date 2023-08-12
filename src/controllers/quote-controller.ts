@@ -126,7 +126,7 @@ export const addDislike = async (req: Request, res: Response) => {
 export const deleteQuote = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const quote = await Quote.findOne({ id: id });
+  const quote = await Quote.findOne({ id });
 
   if (!quote) {
     return res.status(400).json({ message: "quote not found" });

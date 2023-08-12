@@ -375,8 +375,8 @@ paths:
           required: true
       tags:
         - Quotes
-      # security:
-      #   - bearerAuth: []
+      security:
+        - bearerAuth: []
       responses:
         "204":
           description: like added
@@ -395,8 +395,23 @@ paths:
           required: true
       tags:
         - Quotes
-      # security:
-      #   - bearerAuth: []
+      security:
+        - bearerAuth: []
       responses:
         "204":
           description: like removed
+  /quotes/{id}:
+    delete:
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      tags:
+        - Quotes
+        security:
+          - bearerAuth: []
+      responses:
+        "203":
+          description: quite removed

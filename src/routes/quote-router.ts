@@ -1,5 +1,11 @@
 import { authMiddleware } from "../middlewares";
-import { addDislike, addLike, addQuote, editQuotes } from "../controllers";
+import {
+  addDislike,
+  addLike,
+  addQuote,
+  deleteQuote,
+  editQuotes,
+} from "../controllers";
 import express from "express";
 import multer from "multer";
 import { fileStorage, fileFilter } from "../types/multer";
@@ -20,7 +26,8 @@ quoteRouter.put(
   editQuotes
 );
 
-quoteRouter.put("/likes/plus/:userId/:quoteId", addLike);
-quoteRouter.put("/likes/minus/:userId/:quoteId", addDislike);
+quoteRouter.put("/likes/plus/:userId/:quoteId", authMiddleware, addLike);
+quoteRouter.put("/likes/minus/:userId/:quoteId", authMiddleware, addDislike);
+quoteRouter.delete("/quotes/:id", deleteQuote);
 
 export default quoteRouter;
