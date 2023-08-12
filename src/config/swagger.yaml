@@ -336,3 +336,27 @@ paths:
       responses:
         "200":
           description: Quote created successfully
+    put:
+      tags:
+        - Quotes
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: edit quote
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                geo:
+                  type: string
+                eng:
+                  type: string
+                poster:
+                  type: string
+                  format: binary
+                  description: Movie poster file (Multer file upload)
+      responses:
+        "204":
+          description: Edit Quote successfully
