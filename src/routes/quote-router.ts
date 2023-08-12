@@ -1,5 +1,5 @@
 import { authMiddleware } from "../middlewares";
-import { addQuote, editQuotes } from "../controllers";
+import { addDislike, addLike, addQuote, editQuotes } from "../controllers";
 import express from "express";
 import multer from "multer";
 import { fileStorage, fileFilter } from "../types/multer";
@@ -19,5 +19,8 @@ quoteRouter.put(
   multer({ storage: fileStorage, fileFilter }).single("poster"),
   editQuotes
 );
+
+quoteRouter.put("/likes/plus/:userId/:quoteId", addLike);
+quoteRouter.put("/likes/minus/:userId/:quoteId", addDislike);
 
 export default quoteRouter;

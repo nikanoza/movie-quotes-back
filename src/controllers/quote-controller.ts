@@ -93,11 +93,10 @@ export const addLike = async (req: Request, res: Response) => {
 
   quote.likes = quote.likes + 1;
   user.likes.push(quote.id);
-
   await quote.save();
   await user.save();
 
-  return res.status(204);
+  return res.status(204).json("like added");
 };
 
 export const addDislike = async (req: Request, res: Response) => {
@@ -120,5 +119,5 @@ export const addDislike = async (req: Request, res: Response) => {
   await quote.save();
   await user.save();
 
-  return res.status(204);
+  return res.status(204).json("like removed");
 };

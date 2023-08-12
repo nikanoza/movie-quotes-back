@@ -360,3 +360,23 @@ paths:
       responses:
         "204":
           description: Edit Quote successfully
+  /likes/plus/{userId}/{quoteId}:
+    put:
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: quoteId
+          schema:
+            type: string
+          required: true
+      tags:
+        - Quotes
+      # security:
+      #   - bearerAuth: []
+      responses:
+        "204":
+          description: like added
