@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { User } from "models";
 import { v4 as uuid } from "uuid";
 import Quote from "../models/Quote";
-import { addQuoteSchema } from "../schemas";
+import { addQuoteSchema, editQuoteSchema } from "../schemas";
 
 export const addQuote = async (req: Request, res: Response) => {
   const { body, file } = req;
@@ -38,6 +38,7 @@ export const addQuote = async (req: Request, res: Response) => {
       id,
       movieId,
       userId,
+      likes: 0,
       comments: [],
     });
 
@@ -46,4 +47,34 @@ export const addQuote = async (req: Request, res: Response) => {
   } catch (error) {
     return res.status(401).json(error);
   }
+};
+
+export const editQuotes = async (req: Request, res: Response) => {
+  const { body, file, params } = req;
+
+  if (!file) {
+    return res.status(400).json({ message: "image did not upload" });
+  }
+
+  const quote = await Quote.findOne({ id: params.id });
+  if (!quote) {
+    return res.status(400).json({ message: "quote did not find!" });
+  }
+  const posterUrl = "/storage/" + file.filename;
+  const validator = await editQuoteSchema({ ...body, poster: posterUrl });
+  const { value, error } = validator.validate({ ...body, poster: posterUrl });
+
+  if (error) {
+    return res.status(401).json(error.details);
+  }
+
+  const { eng, geo, poster } = value;
+
+  quote.eng = eng;
+  quote.geo = geo;
+  quote.poster = poster;
+
+  await quote.save();
+
+  return res.status(204).json({ message: "quote updated" });
 };
