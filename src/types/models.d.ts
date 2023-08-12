@@ -24,6 +24,7 @@ export interface UserT {
   emails: Email[];
   password: string;
   movies: Movie[];
+  likes: string[];
   id: string;
   avatar?: string;
 }
@@ -49,5 +50,6 @@ export interface QuoteType {
   comments: CommentType[];
   movieId: string;
   userId: string;
+  likes: number;
   id: string;
 }

@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 import { CommentType, QuoteType } from "types";
 
-const { String } = Schema.Types;
+const { String, Number } = Schema.Types;
 
 const commentSchema = new Schema<CommentType>({
   userId: { type: String, required: true },
@@ -15,6 +15,7 @@ const quoteSchema = new Schema<QuoteType>({
   comments: [commentSchema],
   movieId: { type: String, required: true },
   userId: { type: String, required: true },
+  likes: { type: Number, required: true },
   id: { type: String, required: true },
 });
 
