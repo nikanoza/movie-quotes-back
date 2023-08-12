@@ -33,3 +33,9 @@ export interface CreateQuotes {
   geo: string;
   poster: string;
 }
+
+export interface EditQuotes {
+  eng: string;
+  geo: string;
+  poster: string;
+}
