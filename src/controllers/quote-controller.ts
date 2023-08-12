@@ -112,9 +112,12 @@ export const addDislike = async (req: Request, res: Response) => {
   }
 
   quote.likes = quote.likes - 1;
-  const index = user.likes.findIndex(quote.id);
 
-  user.likes.splice(1, index);
+  const index = user.likes.findIndex((id) => id === quote.id);
+
+  const newLikes = user.likes.splice(index, 1);
+
+  console.log(newLikes);
 
   await quote.save();
   await user.save();
