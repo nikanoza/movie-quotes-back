@@ -136,3 +136,5 @@ export const deleteQuote = async (req: Request, res: Response) => {
 
   return res.status(203).json("quote removed!");
 };
+
+export const addComment = async (req: Request, res: Response) => {};

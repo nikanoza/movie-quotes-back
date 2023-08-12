@@ -39,3 +39,9 @@ export interface EditQuotes {
   geo: string;
   poster: string;
 }
+
+export interface NewComment {
+  userId: string;
+  quoteId: string;
+  text: string;
+}
